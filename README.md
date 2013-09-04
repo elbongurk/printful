@@ -1,6 +1,6 @@
 # Printful
 
-TODO: Write a gem description
+Ruby library for integrating with the Printful API
 
 ## Installation
 
