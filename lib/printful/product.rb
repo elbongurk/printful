@@ -3,13 +3,11 @@ module Printful
     attr_reader :id, :type, :name, :model, :size, :price
 
     def self.all
-      response = Configuration.http.get("/products")
-      if response.success?
-        response.result.map! do |attributes|
-          Product.new(attributes)
+      Configuration.http.get("/products") do |result|
+        result.map do |hash|
+          Product.new(hash)
         end
       end
-      response
     end
   end
 end

@@ -5,18 +5,16 @@ module Printful
 
     def self.find(order_number)
       raise ArgumentError if order_number.to_s.strip == ""
-      response = Configuration.http.get("/orders/#{order_number}")
-      if response.success?
-        response.result = Order.new(response.result)
+      Configuration.http.get("/orders/#{order_number}") do |result|
+        Order.new(result)
       end
-      response
     end
 
     def self.create(attributes = {})
       Configuration.http.post("/orders", attributes)
     end
 
-    # API seems to pass through this but doesn't change anything
+    # API doesn't seem to support this yet
     def self.update(order_number, attributes = {})
       raise ArgumentError if order_number.to_s.strip == ""
       Configuration.http.put("/orders/#{order_number}", attributes)

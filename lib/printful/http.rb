@@ -5,29 +5,30 @@ module Printful
     end
 
     def post(path, body = nil)
-     result http_do(Net::HTTP::Post, path, body)
+     process http_do(Net::HTTP::Post, path, body)
     end
 
     def put(path, body = nil)
-      result http_do(Net::HTTP::Put, path, body)
+      process http_do(Net::HTTP::Put, path, body)
     end
 
     def delete(path)
-      result http_do(Net::HTTP::Delete, path)
+      process http_do(Net::HTTP::Delete, path)
     end
 
-    def get(path)
-      result http_do(Net::HTTP::Get, path)
+    def get(path, &success_block)
+      response = http_do(Net::HTTP::Get, path)
+      process(response, &success_block)
     end
 
     private
 
-    def result(response)
+    def process(response, &success_block)
       if response.code == "200"
         if response.body.empty?
           raise Printful::EmptyResponseError
         else
-          Response.new(JSON.parse(response.body))
+          Response.new(JSON.parse(response.body), &success_block)
         end
       else
         Util.raise_exception_for_status_code(response.code)
