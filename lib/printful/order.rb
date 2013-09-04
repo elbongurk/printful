@@ -5,7 +5,7 @@ module Printful
 
     def self.find(order_number)
       raise ArgumentError if order_number.to_s.strip == ""
-      response = Configuration.http.get("/orders/#{order_number}") do |result|
+      response = Configuration.http.get("/orders/#{order_number}")
       if response.success?
         response.result = Order.new(response.result)
       end
