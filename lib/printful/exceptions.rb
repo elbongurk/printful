@@ -8,4 +8,21 @@ module Printful
   class NotFoundError < PrintfulError; end
   class ServerError < PrintfulError; end
   class UnexpectedError < PrintfulError; end
+
+  class ValidationsFailed < BraintreeError
+    attr_reader :error_result
+
+    def initialize(error_result)
+      @error_result = error_result
+    end
+
+    def inspect
+      "#<#{self.class} error_result: #{@error_result.inspect}>"
+    end
+
+    def to_s
+      inspect
+    end
+  end
+
 end

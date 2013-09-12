@@ -12,5 +12,13 @@ module Printful
     def success?
       self.code == 200
     end
+    
+    def inspect
+      "#<#{self.class} code: #{@code}, result: #{@result}>"
+    end
+
+    def to_s
+      inspect
+    end
   end
 end

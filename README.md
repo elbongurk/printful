@@ -6,19 +6,40 @@ Ruby library for integrating with the Printful API
 
 Add this line to your application's Gemfile:
 
-    gem 'printful'
+    gem 'printful', :github => 'elbongurk/printful'
 
 And then execute:
 
     $ bundle
 
-Or install it yourself as:
+## Configuration
 
-    $ gem install printful
+You can simply set the configuration
 
-## Usage
+    Printful::Configuration.public_key ="YOURPUBLICKEY"
+    Printful::Configuration.private_key = "YOURPRIVATEKEY"
 
-TODO: Write usage instructions here
+## Examples
+
+Fetch all products.
+
+    response = Printful::Product.all
+    if response.success?
+      resonse.result.each do |product|
+        puts product.id
+      end
+    else
+      puts response.message
+    end
+
+Fetch an order
+
+    response = Printful::Order.find(1)
+    if response.success?
+      puts response.result.notes
+    else
+      puts response.message
+    end
 
 ## Contributing
 

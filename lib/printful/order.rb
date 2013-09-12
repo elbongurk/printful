@@ -14,6 +14,15 @@ module Printful
       Configuration.http.post("/orders", attributes)
     end
 
+    def self.create!(attributes = {})
+      response = self.create(attributes)
+      if response.success?
+        response.result
+      else
+        raise ValidationsFailed.new(response)
+      end
+    end
+
     # API doesn't seem to support this yet
     def self.update(order_number, attributes = {})
       raise ArgumentError if order_number.to_s.strip == ""
