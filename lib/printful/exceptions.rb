@@ -9,7 +9,7 @@ module Printful
   class ServerError < PrintfulError; end
   class UnexpectedError < PrintfulError; end
 
-  class ValidationsFailed < BraintreeError
+  class ValidationsFailed < PrintfulError
     attr_reader :error_result
 
     def initialize(error_result)

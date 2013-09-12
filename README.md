@@ -29,7 +29,7 @@ Fetch all products.
         puts product.id
       end
     else
-      puts response.message
+      puts response
     end
 
 Fetch an order
@@ -38,7 +38,7 @@ Fetch an order
     if response.success?
       puts response.result.notes
     else
-      puts response.message
+      puts response
     end
 
 ## Contributing
