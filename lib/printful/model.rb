@@ -9,6 +9,15 @@ module Printful
     def self.attributes
       @attributes
     end
+    
+    def self.return_result_or_raise(method, *args)
+      response = self.send(method, *args)
+      if response.success?
+        response.result
+      else
+        raise ValidationsFailed.new(response)
+      end
+    end
 
     def initialize(attributes = {})
       set_instance_variables_from_hash(attributes)

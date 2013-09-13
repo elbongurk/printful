@@ -10,17 +10,16 @@ module Printful
       end
     end
 
+    def self.find!(order_number)
+      return_result_or_raise(:find, order_number)
+    end
+
     def self.create(attributes = {})
       Configuration.http.post("/orders", attributes)
     end
 
     def self.create!(attributes = {})
-      response = self.create(attributes)
-      if response.success?
-        response.result
-      else
-        raise ValidationsFailed.new(response)
-      end
+      return_result_or_raise(:create, attributes)
     end
 
     # API doesn't seem to support this yet
@@ -29,23 +28,42 @@ module Printful
       Configuration.http.put("/orders/#{order_number}", attributes)
     end
 
+    def self.update!(order_number, attributes = {})
+      return_result_or_raise(:update, order_number, attributes)
+    end
+
     # API doesn't seem to support this yet
     def self.delete(order_number)
       raise ArgumentError if order_number.to_s.strip == ""
       Configuration.http.delete("/orders/#{order_number}")
     end
 
+    def self.delete!(order_number)
+      return_result_or_raise(:delete, order_number)
+    end
+
     def create
       Order.create(self)
+    end
+
+    def create!
+      Order.create!(self)
     end
 
     def update
       Order.update(self.number, self)
     end
 
+    def update!
+      Order.update!(self.number, self)
+    end
+
     def delete
       Order.delete(self.number)
-      freeze
+    end
+
+    def delete
+      Order.delete!(self.number)
     end
 
     protected

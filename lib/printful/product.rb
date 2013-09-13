@@ -9,5 +9,9 @@ module Printful
         end
       end
     end
+
+    def self.all!
+      return_result_or_raise(:all)
+    end
   end
 end
